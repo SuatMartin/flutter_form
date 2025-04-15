@@ -34,10 +34,9 @@
         window.parent.postMessage({ type: "CAPTCHA_SOLVED" }, "*");
       }
   
-      // Start a timer to reload the page after 5 minutes (300,000 ms)
       setTimeout(() => {
         location.reload();
-      }, 120000); // 2 minutes
+      }, 60000); // 1 minute
     }
   </script>
 
