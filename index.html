@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/flutter_form/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="flutter_form_app">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>flutter_form_app</title>
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- reCAPTCHA Script -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+
+  <script>
+    function enableCaptchaVerification() {
+      // Notify Flutter app
+      if (window.flutter_inappwebview) {
+        window.flutter_inappwebview.callHandler("onCaptchaSolved", true);
+      } else if (window.parent.postMessage) {
+        window.parent.postMessage({ type: "CAPTCHA_SOLVED" }, "*");
+      }
+  
+      setTimeout(() => {
+        location.reload();
+      }, 60000); // 1 minute
+    }
+  </script>
+
+  <div id="recaptcha-container">
+    <div class="g-recaptcha" 
+         data-sitekey="6LcNj8sqAAAAAM3JJ-g5ricmsu2MMZ4F30puZe3V" 
+         data-callback="enableCaptchaVerification">
+    </div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      const captchaContainer = document.getElementById("recaptcha-container");
+      if (captchaContainer) {
+        captchaContainer.style.display = "block";
+      }
+    };
+  </script>
+  
+</body>
+<style>
+  #recaptcha-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+</style>
+</html>
