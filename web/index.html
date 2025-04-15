@@ -26,13 +26,19 @@
   <script src="flutter_bootstrap.js" async></script>
 
   <script>
-      function enableCaptchaVerification() {
-          if (window.flutter_inappwebview) {
-              window.flutter_inappwebview.callHandler("onCaptchaSolved", true);
-          } else if (window.parent.postMessage) {
-              window.parent.postMessage({ type: "CAPTCHA_SOLVED" }, "*");
-          }
+    function enableCaptchaVerification() {
+      // Notify Flutter app
+      if (window.flutter_inappwebview) {
+        window.flutter_inappwebview.callHandler("onCaptchaSolved", true);
+      } else if (window.parent.postMessage) {
+        window.parent.postMessage({ type: "CAPTCHA_SOLVED" }, "*");
       }
+  
+      // Start a timer to reload the page after 5 minutes (300,000 ms)
+      setTimeout(() => {
+        location.reload();
+      }, 120000); // 2 minutes
+    }
   </script>
 
   <div id="recaptcha-container">
@@ -42,11 +48,21 @@
     </div>
   </div>
 
+  <script>
+    window.onload = function () {
+      const captchaContainer = document.getElementById("recaptcha-container");
+      if (captchaContainer) {
+        captchaContainer.style.display = "block";
+      }
+    };
+  </script>
+  
 </body>
 <style>
   #recaptcha-container {
+    display: none; /* Hidden by default */
     position: fixed;
-    bottom: 10px;
+    bottom: 8%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10000;
